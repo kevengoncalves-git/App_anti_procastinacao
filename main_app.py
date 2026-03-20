@@ -52,6 +52,23 @@ class APP(customtkinter.CTk):
 app = APP()
 app.mainloop()"""
 
+#1.
+class FramePrincipal(customtkinter.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master, fg_color='#536D88', corner_radius=20)
+
+        self.columnconfigure(0, weight=1)
+
+        self.frame_titulo_inicial = FrameTituloInicial(self)
+        self.frame_titulo_inicial.grid(row=0, column=0, padx=10, pady=10)
+
+        self.frame_funcoes = FrameFuncoesTempo(self)
+        self.frame_funcoes.grid(row=1, column=0, padx=40, pady= 5, sticky='ew')
+
+        self.frame_frases = FrameFrases(self)
+        self.frame_frases.grid(row=2, column=0, padx=10, pady=10, ipadx=90)
+
+#1.1
 class FrameTituloInicial(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master, fg_color='#F7DECE', width=200, height=20, border_width=2)
@@ -65,17 +82,23 @@ class FrameTituloInicial(customtkinter.CTkFrame):
                                                    font=self.fonte_personalizada, text_color='black')
         self.label_titulo.grid(row=0, column=0, padx=3, pady=3, ipadx=20)
 
-
-
-class FramePrincipal(customtkinter.CTkFrame):
+#1.2
+class FrameFuncoesTempo(customtkinter.CTkFrame):
     def __init__(self, master):
-        super().__init__(master, fg_color='#536D88', corner_radius=20)
+        super().__init__(master, fg_color='#9B9B9B', width=180, height=250, corner_radius=30)
+
+#1.3
+class FrameFrases(customtkinter.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master, fg_color='#F7DECE', width=300, height=20, border_width=2)
 
         self.columnconfigure(0, weight=1)
 
-        self.frame_titulo_inicial = FrameTituloInicial(self)
-        self.frame_titulo_inicial.grid(row=0, column=0, padx=10, pady=10)
+        #Fonte pras frases
+        self.fonte_para_frases = customtkinter.CTkFont(family='Times', size=16, slant='italic')
 
+        self.label_frases = customtkinter.CTkLabel(self, text="Frase qualquer ", font=self.fonte_para_frases, text_color='black')
+        self.label_frases.grid(row=0, column=0, padx=10, pady=3, ipadx=20)
 
 class APP(customtkinter.CTk):
     def __init__(self):
@@ -83,7 +106,7 @@ class APP(customtkinter.CTk):
 
         #Informações sobre o aplicativo
         self.title("ANTI-PROCASTINATOR 1.0")
-        self.geometry("400x320")
+        self.geometry("450x420")
         self.resizable(False, False)
 
         self.rowconfigure(0, weight=1)
