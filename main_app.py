@@ -1,57 +1,5 @@
 import customtkinter
 
-"""print("Esse é meu app anti-procastinação")
-
-
-class FramePrimario(customtkinter.CTkFrame):
-    def __init__(self, master):
-        super().__init__(master)
-        self.checkbox1 = customtkinter.CTkCheckBox(self, text="Ta rico?")
-        self.checkbox1.grid(row=1, column=0, padx=10, pady=(0,10), sticky='w')
-        self.checkbox2 = customtkinter.CTkCheckBox(self, text="Ta liso?")
-        self.checkbox2.grid(row=2, column=0, padx=10, pady=(0,10), sticky='w')
-        self.checkbox3 = customtkinter.CTkCheckBox(self, text="Só quer mamão so quer mel?")
-        self.checkbox3.grid(row=3, column=0, padx=10, pady=(0,10), sticky='w')
-
-        #Add um titulo no meu frame
-        self.titulo = customtkinter.CTkLabel(self, text="Meu titulo", bg_color="gray")
-        self.titulo.grid(row=0, column=0, padx=10, pady=(0,10), sticky='ew')
-
-    def get(self):
-        if self.checkbox1.get() == 1:
-            print("Ta nada")
-        if self.checkbox2.get() == 1:
-            print("ta mesmo")
-        if self.checkbox3.get() == 1:
-            print("Hurum")
-
-class APP(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
-
-        #Info. geral
-        self.geometry("400x320")
-        self.title("ANTI-PROCASTINATOR 1.0")
-        self.grid_columnconfigure((0, 1), weight=1)
-        #self.grid_rowconfigure((0,1), weight=1)
-        #app.grid_columnconfigure(1, weight=1) mais de uma coluna
-
-        #Estudando os widgets
-        self.botao = customtkinter.CTkButton(self, text="Ta procastinando?" , command=self.resposta_primeiro_botao)
-        self.botao.grid(row=0, column=0, pady=(0,20), sticky='ew', columnspan=2) #sticky='' esticar algo na propria coluna
-        #columnspan=2 fica em duas colunas
-
-        #criando o frame e mandando o chefe "master"
-        self.frame_principal = FramePrimario(self)
-        self.frame_principal.grid(row=1, column=0, pady=(0,20), sticky='nws')
-
-    def resposta_primeiro_botao(self):
-        self.frame_principal.get()
-
-
-app = APP()
-app.mainloop()"""
-
 #1.
 class FramePrincipal(customtkinter.CTkFrame):
     def __init__(self, master):
@@ -74,7 +22,7 @@ class FrameTituloInicial(customtkinter.CTkFrame):
         super().__init__(master, fg_color='#F7DECE', width=200, height=20, border_width=2)
 
         #Minha fonte
-        self.fonte_personalizada = customtkinter.CTkFont(family='Roboto', size=18, weight='bold')
+        self.fonte_personalizada = customtkinter.CTkFont(family='Roboto', size=20, weight='bold')
 
         self.columnconfigure(0, weight=1)
 
@@ -85,7 +33,48 @@ class FrameTituloInicial(customtkinter.CTkFrame):
 #1.2
 class FrameFuncoesTempo(customtkinter.CTkFrame):
     def __init__(self, master):
-        super().__init__(master, fg_color='#9B9B9B', width=180, height=250, corner_radius=30)
+        super().__init__(master, fg_color='#D9D9D9', width=230, height=250, corner_radius=30)
+
+        self.columnconfigure(0, weight=1)
+
+        self.frame_sessao = FrameSessao(self)
+        self.frame_sessao.grid(row=0, column=0, padx=10, pady=(10, 90))
+        self.grid_propagate(False)
+
+#1.2.1
+class FrameSessao(customtkinter.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master, fg_color='#9B9B9B', width=230, height=150)
+
+        self.grid_propagate(False)
+        self.columnconfigure((0,1,2), weight=1)
+
+        #Label da sessão
+        self.label_sessao_string = customtkinter.CTkLabel(self, text="Sessão", 
+                                                          font=customtkinter.CTkFont(family='Roboto', size=18, weight='bold'), 
+                                                          text_color="black")
+        self.label_sessao_string.grid(row=0, column=0, pady=3, columnspan=3)
+
+        #Label do timer
+        self.label_timer = customtkinter.CTkLabel(self, text='30:00', 
+                                                  font=customtkinter.CTkFont(family='Arial', size=50, weight='bold'), 
+                                                  text_color="black")
+        self.label_timer.grid(row=1, column=0, pady=3, columnspan=3)
+
+        #Botões de controle do timer
+        self.botao_iniciar = BotaoControle(self, "Iniciar")
+        self.botao_iniciar.grid(row=2, column=0, padx=3, pady=(20, 10))
+
+        self.botao_reiniciar = BotaoControle(self, "Reiniciar")
+        self.botao_reiniciar.grid(row=2, column=1, padx=3, pady=(20, 10))
+
+        self.botao_parar = BotaoControle(self, "Parar")
+        self.botao_parar.grid(row=2, column=2, padx=3, pady=(20, 10))
+
+#1.2.1.1 Botões
+class BotaoControle(customtkinter.CTkButton):
+    def __init__(self, master, tipo_botao):
+        super().__init__(master, fg_color='#2D2E2C', width=65, height=25, text=tipo_botao)
 
 #1.3
 class FrameFrases(customtkinter.CTkFrame):
@@ -97,7 +86,8 @@ class FrameFrases(customtkinter.CTkFrame):
         #Fonte pras frases
         self.fonte_para_frases = customtkinter.CTkFont(family='Times', size=16, slant='italic')
 
-        self.label_frases = customtkinter.CTkLabel(self, text="Frase qualquer ", font=self.fonte_para_frases, text_color='black')
+        self.label_frases = customtkinter.CTkLabel(self, text="O resultado do amanhã é o fruto do hoje.", 
+                                                   font=self.fonte_para_frases, text_color='black')
         self.label_frases.grid(row=0, column=0, padx=10, pady=3, ipadx=20)
 
 class APP(customtkinter.CTk):
