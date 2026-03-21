@@ -35,11 +35,55 @@ class FrameFuncoesTempo(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master, fg_color='#D9D9D9', width=230, height=250, corner_radius=30)
 
-        self.columnconfigure(0, weight=1)
+        self.columnconfigure((0,1), weight=1)
+        self.grid_propagate(False)
 
         self.frame_sessao = FrameSessao(self)
-        self.frame_sessao.grid(row=0, column=0, padx=10, pady=(10, 90))
+        self.frame_sessao.grid(row=0, column=0, padx=10, pady=(10, 5), columnspan=2)
+
+        #Botões inferiores pra adição de tempo de descanso e estudos
+        self.tempo_pausa = FrameAdicaoTempo(self, "Tempo de Pausa")
+        self.tempo_pausa.grid(row=1, column=0, padx=(20, 5), pady=(10,5))
+
+        self.tempo_estudo = FrameAdicaoTempo(self, "Tempo de Estudos")
+        self.tempo_estudo.grid(row=1, column=1, padx=(5,20), pady=(10,5))        
+
+class FrameAdicaoTempo(customtkinter.CTkFrame):
+    def __init__(self, master, tipo_tempo):
+        super().__init__(master, fg_color='#2D2E2C', width=120, height=65)
+
+        self.columnconfigure(0, weight=1)
         self.grid_propagate(False)
+
+        self.frame_insercao_tempo = FrameInsercaoManualTempo(self)
+        self.frame_insercao_tempo.grid(row=0, column=0, padx=5, pady=(3,0))
+        self.label_tempo = customtkinter.CTkLabel(self, text=tipo_tempo)
+        self.label_tempo.grid(row=1, column=0, padx=2)
+
+
+class FrameInsercaoManualTempo(customtkinter.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master, fg_color='#D9D9D9', width=100, height=36)
+
+        self.grid_propagate(False)
+
+        self.cor_botoes_aumenta_diminui = customtkinter.CTkFont(family='Roboto', size=20, weight='bold')
+        self.cor_fonte_caixa = customtkinter.CTkFont(family='Arial', size=14, weight='bold')
+
+        #Botões de + e - e entrada do usuário
+        self.botao_diminuir = customtkinter.CTkButton(self, text='-', width=4, height=4, corner_radius=4, 
+                                                      fg_color='#D9D9D9', text_color='black', 
+                                                      font=self.cor_botoes_aumenta_diminui)
+        self.botao_diminuir.grid(row=0, column=0, padx=2, pady=2)
+
+        self.caixa_dos_minutos = customtkinter.CTkTextbox(self, text_color='black',fg_color='#D9D9D9',
+                                                          height=10, width=55, border_width=2, font=self.cor_fonte_caixa)
+        self.caixa_dos_minutos.grid(row=0, column=1, padx=2, pady=2)
+
+        self.botao_aumentar = customtkinter.CTkButton(self, text='+', width=4, height=4, corner_radius=4, 
+                                                      fg_color='#D9D9D9', text_color='black', 
+                                                      font=self.cor_botoes_aumenta_diminui)
+        self.botao_aumentar.grid(row=0, column=2, padx=2, pady=2)       
 
 #1.2.1
 class FrameSessao(customtkinter.CTkFrame):
@@ -51,7 +95,7 @@ class FrameSessao(customtkinter.CTkFrame):
 
         #Label da sessão
         self.label_sessao_string = customtkinter.CTkLabel(self, text="Sessão", 
-                                                          font=customtkinter.CTkFont(family='Roboto', size=18, weight='bold'), 
+                                                          font=customtkinter.CTkFont(family='Roboto', size=20, weight='bold'), 
                                                           text_color="black")
         self.label_sessao_string.grid(row=0, column=0, pady=3, columnspan=3)
 
